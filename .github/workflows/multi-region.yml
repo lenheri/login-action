@@ -9,7 +9,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: action/checkout@v4
+      - uses: actions/checkout@v4
       - run: echo "hello"
       - name: Test Login
         uses: lenheri/login-action@support-multi-region
