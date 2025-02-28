@@ -30,4 +30,4 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           push: true
-          tags: 344732144681.dkr.ecr.us-west-1.amazonaws.com/bazz:foo
+          tags: 344732144681.dkr.ecr.us-east-1.amazonaws.com/bazz:foo
