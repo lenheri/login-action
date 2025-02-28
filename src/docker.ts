@@ -38,6 +38,8 @@ export async function loginStandard(registry: string, username: string, password
   loginArgs.push('--username', username);
   loginArgs.push(registry);
 
+  core.info(`Login args ${loginArgs}`);
+
   if (registry) {
     core.info(`Logging into ${registry}...`);
   } else {
