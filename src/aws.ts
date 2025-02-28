@@ -96,7 +96,7 @@ export const getRegistriesData = async (registry: string, username?: string, pas
       : undefined;
 
   if (isPubECR(registry)) {
-    core.info(`AWS Public ECR detection with region ${regions[0]}`);
+    core.info(`AWS Public ECR detected with region ${regions[0]}`);
     const ecrPublic = new ECRPUBLIC({
       customUserAgent: 'docker-login-action',
       credentials,
@@ -123,9 +123,9 @@ export const getRegistriesData = async (registry: string, username?: string, pas
     ];
   } else {
     if (regions.length > 1) {
-      core.info(`AWS ECR detection with regions ${regions}`);
+      core.info(`AWS ECR detected with regions ${regions}`);
     } else {
-      core.info(`AWS ECR detection with region ${regions[0]}`);
+      core.info(`AWS ECR detected with region ${regions[0]}`);
     }
     const regDatas: RegistryData[] = [];
     for (const region of regions) {
