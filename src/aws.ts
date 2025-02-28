@@ -17,7 +17,6 @@ export const isPubECR = (registry: string): boolean => {
 
 export const getRegions = (registry: string): string[] => {
   if (isPubECR(registry)) {
-    console.log('public');
     return [process.env.AWS_REGION || process.env.AWS_DEFAULT_REGION || 'us-east-1'];
   }
 
@@ -36,17 +35,6 @@ export const getRegions = (registry: string): string[] => {
   }
 
   return regions.filter((item, index) => regions.indexOf(item) === index);
-};
-
-export const getRegion = (registry: string): string => {
-  if (isPubECR(registry)) {
-    return process.env.AWS_REGION || process.env.AWS_DEFAULT_REGION || 'us-east-1';
-  }
-  const matches = registry.match(ecrRegistryRegex);
-  if (!matches) {
-    return '';
-  }
-  return matches[3];
 };
 
 export const getAccountIDs = (registry: string): string[] => {
@@ -76,7 +64,6 @@ export interface RegistryData {
 }
 
 export const getRegistriesData = async (registry: string, username?: string, password?: string): Promise<RegistryData[]> => {
-  // const region = getRegion(registry);
   const regions = getRegions(registry);
   const accountIDs = getAccountIDs(registry);
 
@@ -109,7 +96,6 @@ export const getRegistriesData = async (registry: string, username?: string, pas
       : undefined;
 
   if (isPubECR(registry)) {
-    // core.info(`AWS Public ECR detected with ${region} region`);
     core.info(`AWS Public ECR detection with region ${regions[0]}`);
     const ecrPublic = new ECRPUBLIC({
       customUserAgent: 'docker-login-action',
@@ -136,8 +122,11 @@ export const getRegistriesData = async (registry: string, username?: string, pas
       }
     ];
   } else {
-    // core.info(`AWS ECR detected with ${region} region`);
-    core.info(`AWS ECR detection with regions ${regions}`);
+    if (regions.length > 1) {
+      core.info(`AWS ECR detection with regions ${regions}`);
+    } else {
+      core.info(`AWS ECR detection with region ${regions[0]}`);
+    }
     const regDatas: RegistryData[] = [];
     for (const region of regions) {
       const ecr = new ECR({
@@ -168,17 +157,3 @@ export const getRegistriesData = async (registry: string, username?: string, pas
     return regDatas;
   }
 };
-
-// const registry = '344732144681.dkr.ecr.us-west-1.amazonaws.com/bazz';
-// const registry = '';
-// const public_registry = 'public.ecr.aws';
-// const matches = registry.match(ecrRegistryRegex);
-// console.log(matches);
-
-// console.log(getRegistriesData(registry, process.env.AWS_ACCESS_KEY_ID, process.env.AWS_SECRET_ACCESS_KEY));
-
-// console.log(getRegions(public_registry));
-// console.log(getRegions(registry));
-
-// console.log(getAccountIDs(registry));
-// console.log(getRegions(registry));
