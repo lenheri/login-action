@@ -4,6 +4,8 @@ import * as core from '@actions/core';
 import {Docker} from '@docker/actions-toolkit/lib/docker/docker';
 
 export async function login(registry: string, username: string, password: string, ecr: string): Promise<void> {
+  core.info(`Registry is...`);
+  core.info(`Registry is ${registry}`);
   if (/true/i.test(ecr) || (ecr == 'auto' && aws.isECR(registry))) {
     await loginECR(registry, username, password);
   } else {
@@ -54,7 +56,7 @@ export async function loginStandard(registry: string, username: string, password
 }
 
 export async function loginECR(registry: string, username: string, password: string): Promise<void> {
-  core.info(`Retrieving registries data through AWS SDK...`);
+  core.info(`foobarRetrieving registries data through AWS SDK...`);
   const regDatas = await aws.getRegistriesData(registry, username, password);
   for (const regData of regDatas) {
     core.info(`Logging into ${regData.registry}...`);
