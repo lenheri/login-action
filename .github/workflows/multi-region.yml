@@ -13,14 +13,13 @@ jobs:
       - name: Test Login
         uses: lenheri/login-action@support-multi-region
         with:
-          # ecr: true
+          ecr: true
           # registry: 344732144681.dkr.ecr.us-west-1.amazonaws.com/bazz
           username: ${{ secrets.AWS_ACCESS_KEY_ID }}
           password: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         env:
           AWS_REGIONS: 'us-east-1,us-west-1'
-          AWS_ACCOUNT: 344732144681
-          AWS_ECR_REPOSITORY: foo/bar
+          AWS_ACCOUNT_IDS: 344732144681
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
       - name: Set up Docker Buildx
@@ -29,4 +28,6 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           push: true
-          tags: 344732144681.dkr.ecr.us-east-1.amazonaws.com/bazz:foo
+          tags: |
+            344732144681.dkr.ecr.us-east-1.amazonaws.com/bazz:foo
+            344732144681.dkr.ecr.us-west-1.amazonaws.com/bazz:foo
