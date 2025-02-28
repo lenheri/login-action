@@ -13,5 +13,6 @@ jobs:
       - name: Test Login
         uses: lenheri/login-action@test
         with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+          registry: 344732144681.dkr.ecr.us-east-1.amazonaws.com/bazz
+          username: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          password: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
