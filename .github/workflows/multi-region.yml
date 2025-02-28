@@ -1,0 +1,18 @@
+name: multi-region
+
+on:
+  push:
+    branches:
+      - support-multi-region
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "hello"
+      - name: Test Login
+        # uses: lenheri/login-action@9cec3780d7204259453fd9debc2b799a6ebfdb82
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
